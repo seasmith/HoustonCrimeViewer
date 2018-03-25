@@ -13,11 +13,11 @@ pretty <- function(x) prettyNum(x, big.mark = ",")
 # LOAD DATA ---------------------------------------------------------------
 
 # Houston population data
-load("../../../../data/hou_pop.RData")
+load("data/hou_pop.RData")
 # Sumarized (yearly) crime data
-load("../../../../data/hpb_yearly.RData")
+load("data/hpb_yearly.RData")
 # Houston police beats
-load("../../../../data/map_pol_beat_simp.RData")
+load("data/map_pol_beat_simp.RData")
 
 
 # ASSEMBLE DATA -----------------------------------------------------------
