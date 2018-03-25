@@ -1,7 +1,5 @@
 # Template from: https://github.com/rstudio/shiny-examples/blob/master/063-superzip-example/ui.R
 
-library(leaflet)
-
 # Choices for drop-downs
 crime_types <- c(
   "Aggravated Assaults" = "Aggravated Assaults",

@@ -1,6 +1,7 @@
 
 # DEPENDENCIES AND FUNCTIONS ----------------------------------------------
 
+library(leaflet)
 library(sf)
 library(dplyr)
 library(lubridate)
