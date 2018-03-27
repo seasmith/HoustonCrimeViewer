@@ -1,7 +1,16 @@
-# Template from: https://github.com/rstudio/shiny-examples/blob/master/063-superzip-example/ui.R
 
-# Choices for drop-downs
-crime_types <- c(
+# HEADER ------------------------------------------------------------------
+
+# Header
+header <- dashboardHeader(
+  title = "Houston Crime Viewer"
+)
+
+
+# SIDEBAR -----------------------------------------------------------------
+
+# Define 'Crime Category' inputs
+crimeTypes <- c(
   "Aggravated Assaults" = "Aggravated Assaults",
   "Auto Thefts"         = "Auto Thefts",
   "Burglaries"          = "Burglaries",
@@ -11,48 +20,95 @@ crime_types <- c(
   "Robberies"           = "Robberies"
 )
 
-year_values <- as.character(2010:2017)
-names(year_values) <- as.character(2010:2017)
+# Define 'Year' inputs
+yearValues <- as.character(2010:2017) %>% setNames(nm = .)
 
+# Set variables for use through out the ui
+mapText <- "Crime Map Explorer"
+databookText <- "Data Book"
+mapTabName   <- "map"
+databookTabName <- "databook"
 
-navbarPage("Houston Crime Data", id = "nav",
-           
-           tabPanel("Police Beat Map",
-                    div(class = "outer",
-                        
-                        tags$head(
-                          # Include our custom CSS
-                          includeCSS("www/styles.css")
-                        ),
-                        
-                        # If not using custom CSS, set height of leafletOutput to a number instead of percent
-                        leafletOutput("map", width = "100%", height = "100%"),
-                        
-                        absolutePanel(id    = "controls", class     = "panel panel-default",
-                                      fixed = TRUE      , draggable = TRUE,
-                                      top   = 60        , left      = "auto",
-                                      right = 20        , bottom    = "auto",
-                                      width = 330       , height    = "auto",
-                                      
-                                      h2("Crime Explorer"),
-                                      
-                                      selectInput("offType", "Crime Category", crime_types, "Aggravated Assaults"),
-                                      selectInput("years", "Years", year_values, 2017),
-                                      # sliderInput("years", "Years", 2010, 2017, value = c(2017)), # one year for now
-                                      
-                                      plotOutput("lineChart", height = 200),
-                                      plotOutput("weekdayChart", height = 250)
-                        ),
-                        
-                        tags$div(id="cite",
-                                 'Source: City of Houston')
-                    )
-           ),
-           
-           tabPanel("Data",
-                    fluidRow(tags$p("Not all data in the dataset is mapable. There are nearly {this_many}
-                                    records left out the map.")
-                    )),
-           
-           conditionalPanel("false", icon("crosshair"))
+# Sidebar
+sidebar <- dashboardSidebar(
+  sidebarMenu(
+    menuItem(mapText, tabName = mapTabName),
+    menuItem(databookText, tabName = databookTabName),
+    selectInput("offType", "Crime Category", crimeTypes, "Aggravated Assaults"),
+    selectInput("years", "Year", yearValues, 2017)
+  )
 )
+
+
+# BODY --------------------------------------------------------------------
+
+
+# Set first row height to 500px...for now
+mapRowHeight  <- "750px"
+# plotRowHeight <- "300px"  # not using this, for now
+
+# Body
+body <- dashboardBody(
+  
+  tags$style(type = "text/css", "#map {height: calc(100vh - 80px) !important;}"),
+  tabItems(
+    tabItem(
+      tabName = mapTabName, h2(mapText),
+      fluidRow(
+        box(
+          title = "Houston Crime Data Map", width = 8, height = mapRowHeight,
+          leafletOutput("map", width = "100%", height = "680px")
+        ),
+        box(
+          title = "Police Beat Report", width = 4, height = mapRowHeight,
+          plotOutput("yearly_trends"),
+          plotOutput("day_and_hour_trends")
+        )#,
+        # box(
+        #   title = "Filters", width = 4, height = mapRowHeight,
+        #   selectInput("offType", "Crime Category", crimeTypes, "Aggravated Assaults"),
+        #   selectInput("years", "Year", yearValues, 2017)
+        # )
+      )#,
+      # fluidRow(
+      #   box(
+      #     title = "Police Beat Report",
+      #     plotOutput("yearly_trends"),
+      #     plotOutput("day_and_hour_trends")
+      #   )
+      # )
+    ),
+    tabItem(
+      tabName = databookTabName, h2(databookText)
+    )
+  )
+)
+
+# Experimental concept:
+# firstRow <- apply(tst, 1, function(x) set_box(x))  # cannot be used inside `fluidRow()`
+# fluidRow(apply(tst, 1, function(x) set_box(x)))
+# 
+# map_inputs    <- list(leafletOutput("map", width = "100%", height = "100%"))
+# select_inputs <- list(selectInput("offType", "Crime Category", crimeTypes, "Aggravated Assaults"),
+#                       selectInput("years", "Year", yearValues, 2017))
+# plot_outputs  <- list(plotOutput("yearly_trends"),
+#                       plotOutput("day_and_hour_trends"))
+# 
+# tst <- tibble::tribble(~title                  , ~width, ~height, ~input,
+#                        "Houston Crime Data Map",      8, "500px", map_inputs,
+#                        "Filters"               ,      4, "500px", select_inputs,
+#                        "Police Beat Report"    ,     12, "500px", plot_inputs)
+# 
+# set_box  <- function(r) box(title  = r[["title"]],  width = r[["width"]],
+#                             height = r[["height"]], eval(r[["input"]]))
+# 
+# tabItem(
+#   tabName = mapTabName, h2(mapText),
+#   fluidRow(apply(tst[1:2, ], 1, function(x) set_box(x))),
+#   fluidRow(apply(tst[3,   ], 1, function(x) set_box(x)))
+# )
+
+# UI ----------------------------------------------------------------------
+
+# ui
+ui <- dashboardPage(header, sidebar, body)
