@@ -1,9 +1,11 @@
 
 # DEPENDENCIES AND FUNCTIONS ----------------------------------------------
 
+library(shinydashboard)
 library(leaflet)
 library(sf)
 library(dplyr)
+library(scales)
 library(lubridate)
 library(tidyr)
 library(stringr)

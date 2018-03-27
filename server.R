@@ -1,8 +1,3 @@
-library(leaflet)
-library(scales)
-library(dplyr)
-
-
 
 # FUNCTION ----------------------------------------------------------------
 
