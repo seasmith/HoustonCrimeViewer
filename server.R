@@ -5,6 +5,10 @@ function(input, output, session) {
   
   ## Interactive Map ###########################################
   
+  data <- reactiveValues(clickedShape = NULL)
+  observeEvent(input$map_shape_click, {data$clickedShape <- input$map_shape_click})
+  observeEvent(input$resetBeatSelection, {data$clickedShape <- NULL})
+    
   leafData <- reactive({
     # No slider, for now
     filter(hpb_yearly, `Offense Type` == input$offType &
@@ -15,16 +19,18 @@ function(input, output, session) {
     colorNumeric("viridis", domain = unique(leafData()$rate), na.color = "gray10")
   })
   
+  setLat <- -95.5
+  setLon <- 29.8
+  
   # Create the map
   output$map <- renderLeaflet({
     pal <- colorPal()
-    bbox <- st_bbox(hpb_yearly)
+    # bbox <- st_bbox(hpb_yearly)
     leaflet(filter(hpb_yearly, `Offense Type` == "Assaults" & year == 2017)) %>%
       addProviderTiles(providers$Esri,
                        options = providerTileOptions(minZoom = 10, maxZoom = 18)) %>%
-      # setView(lng = -95.3, lat = 29.8, zoom = 11)
-      fitBounds(bbox[["xmin"]], bbox[["ymin"]], bbox[["xmax"]], bbox[["ymax"]]) #%>%
-    # mapOptions(zoomToLimits = "never")
+      # fitBounds(-95.77115, 29.52334 - 0.2, -95.01642, 30.11036)
+      setView(setLat, setLon, zoom = 10)
   })
   
   labels <- reactive({
@@ -39,13 +45,31 @@ function(input, output, session) {
       lapply(htmltools::HTML)
   })
   
+  zoom <- reactive({
+    ifelse(is.null(input$map_zoom), 10 , input$map_zoom)
+  })
+    
+  center <- reactive({
+    
+    if(is.null(input$map_center)){
+      return(c(setLat, setLon))
+    }else{
+      return(input$map_center)
+    }
+    
+  })
   # Update map
   observe({
-    pal <- colorPal()
+    # zoom <- ifelse(is.null(input$map_zoom), 10 , input$map_zoom)
+    # pal <- colorPal()
     leafletProxy("map", data = leafData()) %>%
+      setView(lng = isolate(center())[1],
+              lat = isolate(center())[2],
+              zoom = isolate(zoom())) %>%
       clearShapes() %>%
-      addPolygons(stroke = TRUE, weight = 1, color = "gray10",
-                  fillOpacity = 0.5, fillColor = ~pal(rate),
+      addPolygons(layerId = ~Beat,
+                  stroke = TRUE, weight = 1, color = "gray10",
+                  fillOpacity = 0.5, fillColor = ~(colorPal())(rate),
                   highlightOptions = highlightOptions(
                     weight = 1.4, fillOpacity = 0.8, bringToFront = TRUE
                   ),
@@ -56,6 +80,6 @@ function(input, output, session) {
                     direction = "auto"
                   )
       )  %>%
-      addLegend(position = "bottomright", pal = pal, values = ~rate, title = "Rate")
+      addLegend(position = "bottomleft", pal = colorPal(), values = ~rate, title = "Rate")
   })
 }
