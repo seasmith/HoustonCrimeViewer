@@ -3,14 +3,15 @@
 
 library(shinydashboard)
 library(leaflet)
+library(ggplot2)
+library(ggalt)
+library(grid)
+library(plotly)
 library(sf)
 library(dplyr)
 library(scales)
-library(lubridate)
-library(tidyr)
-library(stringr)
+library(forcats)
 pretty <- function(x) prettyNum(x, big.mark = ",")
-
 
 # LOAD DATA ---------------------------------------------------------------
 
