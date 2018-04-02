@@ -51,17 +51,14 @@ function(input, output, session) {
     
   center <- reactive({
     
-    if(is.null(input$map_center)){
-      return(c(setLat, setLon))
-    }else{
-      return(input$map_center)
-    }
+    if (is.null(input$map_center))
+      c(setLat, setLon)
+    else input$map_center
     
   })
-  # Update map
+
+    # Update map
   observe({
-    # zoom <- ifelse(is.null(input$map_zoom), 10 , input$map_zoom)
-    # pal <- colorPal()
     leafletProxy("map", data = leafData()) %>%
       setView(lng = isolate(center())[1],
               lat = isolate(center())[2],
