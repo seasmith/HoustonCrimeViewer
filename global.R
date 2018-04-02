@@ -12,22 +12,39 @@ library(dplyr)
 library(scales)
 library(forcats)
 pretty <- function(x) prettyNum(x, big.mark = ",")
+x_labs <- c(paste0(c(12, 1:11), "am"),
+            paste0(c(12, 1:11), "pm"))
 
 # LOAD DATA ---------------------------------------------------------------
 
 # Houston population data
 load("data/hou_pop.RData")
-# Sumarized (yearly) crime data
+# Beat sumarized (yearly) crime data
 load("data/hpb_yearly.RData")
+# Whole city summarize (yearly) crime data
+load("data/hpb_yearly_summed.RData")
+# Hourly beat data (unsummarize)
+load("data/hpb_hourly.RData")
+# Hourly beat data (summarize)
+load("data/hpb_hourly_summed.RData")
 # Houston police beats
 load("data/map_pol_beat_simp.RData")
 
 
 # ASSEMBLE DATA -----------------------------------------------------------
 
+# For plotly, an example:
+# hpb_yearly %>%
+#   filter(year == 2017 &
+#            `Offense Type` == "Murders") %>%
+#   split(.$Beat) %>%
+#   {
+#     purrr::map(., st_coordinates) %>%
+#       purrr::map(tibble::as_tibble) %>%
+#       dplyr::bind_rows(.id = "Beat")
+#   }
 
 # REMOVING POLICE BEATS ---------------------------------------------------
-
 
 rm_beats <- function(threshold, measure = c("population", "density")) {
   
