@@ -145,9 +145,8 @@ function(input, output, session) {
       rename(Rate = rate) %>%
       mutate(Rate = round(Rate, 1)) %>%
       ggplot() +
-      geom_histogram(aes(Rate),
-                     alpha = 0.7, fill = "gray50") +
-      scale_x_continuous(expand = expand_scale(c(0.1,0.1))) +
+      geom_histogram(aes(Rate), fill = "gray50") +
+      scale_x_continuous(expand = expand_scale(c(0.1, 0.1)), breaks = pretty_breaks(3)) +
       scale_y_continuous(expand = expand_scale(c(0.1, 0.1)), breaks = pretty_breaks(2)) +
       facet_wrap(~`Offense Type`, scales = "free") +
       theme_minimal()
@@ -196,7 +195,7 @@ function(input, output, session) {
           scale_x_continuous(NULL, expand = expand_scale(),
                              breaks = seq(0, 20, 5), labels = x_labs[seq(1, 21, 5)]) +
           scale_y_discrete(NULL, expand = expand_scale()) +
-          labs(title = paste0(input$years, " Day and Time Distribution of ", input$offType, " in Houston"),
+          labs(title = paste0(input$years, " Day-Time Distribution of ", input$offType, " in Houston"),
                x = NULL, y = NULL) +
           theme_minimal(),
         height = 400, autosize = TRUE, width = 600, tooltip = "text"
@@ -221,7 +220,7 @@ function(input, output, session) {
           scale_x_continuous(NULL, expand = expand_scale(),
                              breaks = seq(0, 20, 5), labels = x_labs[seq(1, 21, 5)]) +
           scale_y_discrete(NULL, expand = expand_scale()) +
-          labs(title = paste0(input$years, " Day and Time Distribution of ", input$offType, " in Beat ", input$map_shape_click$id),
+          labs(title = paste0(input$years, " Day-Time Distribution of ", input$offType, " in Beat ", input$map_shape_click$id),
                x = NULL, y = NULL) +
           theme_minimal(),
         height = 400, autosize = TRUE, width = 600

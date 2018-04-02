@@ -38,7 +38,7 @@ sidebar <- dashboardSidebar(
     menuItem(databriefText, tabName = databriefTabName),
     selectInput("offType", "Crime Category", crimeTypes, defaultCrimeType),
     selectInput("years", "Year", yearValue, defaultYearValue),
-    actionButton("resetBeatSelection", "Reset Beat Selection")
+    actionButton("resetBeatSelection", "Reset Map Selection")
   )
 )
 
@@ -64,13 +64,13 @@ body <- dashboardBody(
           tabsetPanel(
             type = "tabs",
             tabPanel(
-              "Aggregate Plots",
+              "All Crimes",
               plotlyOutput("yearly_trends", height = 400),
               plotlyOutput("density", height = 400)
               
             ),
             tabPanel(
-              "Individual Crime Plots",
+              "Selected Crime",
               plotlyOutput("day_and_hour_trends", height = 400)    
             )
           )
