@@ -106,7 +106,7 @@ function(input, output, session) {
           theme_minimal(),
         height = 400, width = 600
       ) %>%
-        layout(xaxis = list(title = FALSE))
+        layout(xaxis = list(title = FALSE), hovermode = "compare")
       
     } else {
 
@@ -132,7 +132,7 @@ function(input, output, session) {
           theme_minimal(),
         height = 400, width = 600
       ) %>%
-        layout(xaxis = list(title = FALSE))
+        layout(xaxis = list(title = FALSE), hovermode = "compare")
     }
     
   })
@@ -159,17 +159,19 @@ function(input, output, session) {
              y = paste0("Number of Beats"))
     } else {
       output_density <- output_density +
-        geom_vline(aes(xintercept = Rate, text = paste0("Rate: ", round(Rate, 1))),
+        geom_vline(aes(xintercept = Rate),
                    data = filter(hpb_yearly, year == 2017, Beat == input$map_shape_click$id) %>%
                      rename(Rate = rate) %>%
                      mutate(Rate = round(Rate, 1)),
-                   color = "brown", size = 0.6, alpha = 0.7) +
-        labs(title = paste0(input$years, " Beat ", input$map_shape_click$id, " Crime Distribution"),
+                   color = "brown", size = 0.6, alpha = 0.8) +
+        # labs(title = paste0(input$years, " Beat ", input$map_shape_click$id, " Crime Distribution"),
+        labs(title = paste0(input$years, " City of Houston Crime Distribution"),
              x = paste0("Crime Rate (Per 100,000)"),
              y = paste0("Number of Beats"))
     }
     
-    ggplotly(output_density, height = 400, autosize = TRUE, width = 600)
+    ggplotly(output_density, height = 400, autosize = TRUE, width = 600) %>%
+      layout(hovermode = "compare")
       
   })
   
