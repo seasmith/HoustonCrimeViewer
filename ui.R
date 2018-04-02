@@ -35,7 +35,7 @@ databriefTabName <- "databrief"
 sidebar <- dashboardSidebar(
   sidebarMenu(
     menuItem(mapText, tabName = mapTabName),
-    menuItem(databriefText, tabName = databriefTabName),
+    # menuItem(databriefText, tabName = databriefTabName),
     selectInput("offType", "Crime Category", crimeTypes, defaultCrimeType),
     selectInput("years", "Year", yearValue, defaultYearValue),
     actionButton("resetBeatSelection", "Reset Map Selection")
@@ -76,10 +76,10 @@ body <- dashboardBody(
           )
         )
       )
-    ),
-    tabItem(
-      tabName = databriefTabName, h2(databriefText)
-    )
+    )#,
+    # tabItem(
+    #   tabName = databriefTabName, h2(databriefText)
+    # )
   )
 )
 
