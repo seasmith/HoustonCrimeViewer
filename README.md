@@ -1,33 +1,44 @@
 Houston Crime Explorer
 ----------------------
 
-This app is not available online, yet, but you can run this app yourself.
+The app allows you to explore the City of Houston crime data set through the use of an interactive choropleth map, line charts, histograms, and an hour-by-hour heatmap. All instances of crime rate refer to the rate per 100,000 persons.
+
+### Tour
+
+The choropleth map gives you a tooltip with some helpful information.
+
+![Tooltip](imgs/tooltip.gif)
+
+Selecting police beats on the map changes the output of the plots. ![Select Beat](imgs/beat_selection.gif)
+
+![Select Beat](imgs/beat_selection_2.gif)
+
+Deselecting the police beat resets the plots.
+
+![Deselect Beat](imgs/beat_deselection.gif)
+
+The map changes when the crime type is changed.
+
+![Select Crime Type](imgs/type_selection.gif)
+
+You can also change the year.
+
+![Select Year](imgs/year_selection.gif)
+
+### Build It
+
+The app is available [online](https://seasmith.shinyapp.io/HoustonCrimeViewer). However, you can run this app yourself.
 
 To run the app, you will need to:
 
-<ol>
-<li>
-[Install R](https://cran.r-project.org/)
-</li>
-<li>
-[Install RStudio](https://www.rstudio.com/products/rstudio/download/#download)
-</li>
-<li>
-[Install Git](https://git-scm.com/downloads)
-</li>
-<li>
-Clone this project: `git clone https://github.com/seasmith/HoustonCrimeViewer HoustonCrimeViewer`
-</li>
-<li>
-Install `devtools` and `packrat`: `install.packages(c("devtools", "packrat"))`
-</li>
-<li>
-Install requisite packages: `packrat::install_deps()` (the `DESCRIPTION` file exists for this purpose, this repo is **not** a package)
-</li>
-<li>
-Execute `shiny::runApp()`
-</li>
-</ol>
+1.  [Install R](https://cran.r-project.org/)
+2.  [Install RStudio](https://www.rstudio.com/products/rstudio/download/#download)
+3.  [Install Git](https://git-scm.com/downloads)
+4.  Clone this project: `git clone https://github.com/seasmith/HoustonCrimeViewer HoustonCrimeViewer`
+5.  Install `devtools` and `packrat`: `install.packages(c("devtools", "packrat"))`
+6.  Install requisite packages: `packrat::install_deps()` (the `DESCRIPTION` file exists for this purpose, this repo is **not** a package)
+7.  Execute `shiny::runApp()`
+
 Please create an issue if something does not go as planned.
 
 Future Versions
@@ -48,6 +59,44 @@ Some things which **will** eventually be added:
 -   Select which variable to map. Currently `rate` is used, but others may include:
     -   `n_offenses` (number of offenses)
     -   `n_offenses / pop_den` (number of offenses divided by population density)
+-   Attach names to the police beats:
+
+| Police Beat | Name                               |
+|-------------|------------------------------------|
+| 1A20        | West Montrose                      |
+| 1A30        | East Montrose                      |
+| 1A40        | River Oaks                         |
+| 1A50        | Afton Oaks                         |
+| 2A20        | The Heights (East)                 |
+| 2A30        | The Heights (Central)              |
+| 2A40        | First Ward                         |
+| 2A50        | Rice Military                      |
+| 2A60        | The Heights (West)                 |
+| 3B30        | Oak Forest                         |
+| 3B40        | Independence Heights               |
+| 4F30        | Addicks Reservoir                  |
+| 6B60        | Greenspoint                        |
+| 10H40       | Midtown                            |
+| 10H50       | Third Ward (University of Houston) |
+| 10H70       | Museum District                    |
+| 12D50       | Clear Lake (North)                 |
+| 12D60       | Clear Lake (Central)               |
+| 10H80       | Rice Village                       |
+| 14D20       | Sunnyside                          |
+| 15E40       | The Astrodome                      |
+| 17E10       | Gulfton                            |
+| 18F10       | Tanglewood (Houston)               |
+| 18F20       | The Galleria                       |
+| 18F30       | Fountainview                       |
+| 18F40       | Piney Point                        |
+| 19G10       | Alief (East)                       |
+| 19G20       | Alief (Central)                    |
+| 19G30       | Alief (West)                       |
+| 19G40       | Alief (South)                      |
+| 20G30       | West Chase                         |
+| 20G50       | City Centre                        |
+| 20G60       | Memorial                           |
+| 20G80       | Barker Reservoir                   |
 
 ### Probable Additions
 
@@ -56,6 +105,7 @@ Some things which **may** be added:
 -   Address input. Ideally, a user should be able to enter their address to highlight the police beat in which the live.
 -   Geocoding all crimes. There are hundreds of thousands of unique block ranges (block ranges are the addressing method used by the Houston Police Department). Focus may be prioritized on recent years, starting with 2017.
 -   Census data. This may include income, age, race, and other data available through the census.
+-   Turn this project into a package. Vignettes would act as reports and summaries.
 -   Vega/Vega-lite graphics.
 
 Data sources
