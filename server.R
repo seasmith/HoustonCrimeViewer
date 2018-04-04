@@ -25,8 +25,7 @@ function(input, output, session) {
   # Create the map
   output$map <- renderLeaflet({
     pal <- colorPal()
-    # bbox <- st_bbox(hpb_yearly)
-    leaflet(filter(hpb_yearly, `Offense Type` == "Assaults" & year == 2017)) %>%
+    leaflet() %>%
       addProviderTiles(providers$Esri,
                        options = providerTileOptions(minZoom = 10, maxZoom = 18)) %>%
       # fitBounds(-95.77115, 29.52334 - 0.2, -95.01642, 30.11036)
