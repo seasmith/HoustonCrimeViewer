@@ -48,6 +48,9 @@ Future Versions
 
 Some things which **will** eventually be added:
 
+-   A 'data brief' section to document:
+    -   Data distribution
+    -   Missing/anomalous data
 -   `plotly` maps.
     -   Lasso-selection
     -   Multi-selection

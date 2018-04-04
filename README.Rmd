@@ -57,6 +57,9 @@ Please create an issue if something does not go as planned.
 
 Some things which __will__ eventually be added:
 
+* A 'data brief' section to document:
+    * Data distribution
+    * Missing/anomalous data
 * `plotly` maps.
     * Lasso-selection
     * Multi-selection
