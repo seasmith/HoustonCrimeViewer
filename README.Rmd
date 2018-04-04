@@ -120,6 +120,15 @@ Some things which __may__ be added:
 * Turn this project into a package. Vignettes would act as reports and summaries.
 * Vega/Vega-lite graphics.
 
+## Other Visuals
+I have posted tweets on this data in the past, and likely will continue to do so.
+
+> [Crime in \#Houston from 2010-2017 and Hurricane Harvey's impact \#rstats](https://twitter.com/lksmth/status/970721936295845889)
+> - March 5, 2018
+
+![The Harvey Effect](imgs/the_harvey_effect_annotated.png)
+![Monthly Heatmap](imgs/houston_crime_per_month.png)
+
 ## Data sources
 
 Type | Source
