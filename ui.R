@@ -57,7 +57,11 @@ body <- dashboardBody(
       title = "Crime Map",
       fluidRow(
         box(
-          leafletOutput("map", width = "100%", height = "100%"), width = 7
+          width = 7,
+          leafletOutput("map", width = "100%", height = "100%"),
+          tags$div(id="cite",
+                   "Data sources: City of Houston; NASA SEDAC"
+          )
         ),
         box(
           width = 5, height = "100%",
