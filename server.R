@@ -155,7 +155,7 @@ function(input, output, session) {
     } else {
       output_density <- output_density +
         geom_vline(aes(xintercept = Rate),
-                   data = filter(hpb_yearly, year == 2017, Beat == input$map_shape_click$id) %>%
+                   data = filter(hpb_yearly, year == input$years, Beat == input$map_shape_click$id) %>%
                      rename(Rate = rate) %>%
                      mutate(Rate = round(Rate, 1)),
                    color = "brown", size = 0.6, alpha = 0.8) +
