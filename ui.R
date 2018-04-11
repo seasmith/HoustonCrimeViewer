@@ -45,9 +45,6 @@ sidebar <- dashboardSidebar(
 
 # BODY --------------------------------------------------------------------
 
-# Set row height
-mapRowHeight  <- "750px"
-
 # Body
 body <- dashboardBody(
   tags$style(type = "text/css", "#map {height: calc(100vh - 100px) !important;}"),
@@ -60,7 +57,8 @@ body <- dashboardBody(
           width = 7,
           leafletOutput("map", width = "100%", height = "100%"),
           tags$div(id="cite",
-                   "Data sources: City of Houston; NASA SEDAC"
+                   "Data sources: City of Houston; NASA SEDAC | ",
+                   tags$a("Project Homepage", href = "https://github.com/seasmith/HoustonCrimeViewer")
           )
         ),
         box(
@@ -71,7 +69,7 @@ body <- dashboardBody(
               "All Crimes",
               plotlyOutput("yearly_trends", height = 400),
               plotlyOutput("density", height = 400)
-              
+
             ),
             tabPanel(
               "Selected Crime",
