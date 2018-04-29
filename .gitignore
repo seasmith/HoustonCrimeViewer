@@ -4,3 +4,7 @@
 .Ruserdata
 README.html
 rsconnect
+packrat/lib*/
+packrat
+.Rbuildignore
+.Rprofile
