@@ -3,6 +3,11 @@ Houston Crime Explorer
 
 [The app](https://seasmith.shinyapp.io/HoustonCrimeViewer) allows you to explore the City of Houston crime data set through the use of an interactive choropleth map, line charts, histograms, and an hour-by-hour heatmap. All instances of crime rate refer to the rate per 100,000 persons.
 
+**NOTE:**
+
+-   This app is not mobile ready. Sorry. Pop-ups are sticky; I will get around to fixing this.
+-   If using Firefox, you will have to select a 'Crime Category' to populate the choropleth map. For whatever reason, the app does not auto-populate the map with the default 'Aggravated Assaults' category.
+
 ### Tour
 
 The choropleth map gives you a tooltip with some helpful information.
@@ -36,7 +41,7 @@ To run the app, you will need to:
 3.  [Install Git](https://git-scm.com/downloads)
 4.  Clone this project: `git clone https://github.com/seasmith/HoustonCrimeViewer HoustonCrimeViewer`
 5.  Install `devtools` and `packrat`: `install.packages(c("devtools", "packrat"))`
-6.  Install requisite packages: `packrat::install_deps()` (the `DESCRIPTION` file exists for this purpose, this repo is **not** a package)
+6.  Install requisite packages: `packrat::init()` or `devtools::install_deps()` (the `DESCRIPTION` file exists for this purpose, this repo is **not** a package)
 7.  Execute `shiny::runApp()`
 
 Please create an issue if something does not go as planned.
