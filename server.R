@@ -85,10 +85,9 @@ function(input, output, session) {
     if (is.null(data$clickedShape)) {
       
       ggplotly(
-        select(as.data.frame(hpb_yearly_summed), -geometry) %>%
-          as_tibble() %>%
-          rename(Year = year, Rate = rate) %>%
-          mutate(Rate = round(Rate, 1)) %>%
+        hpb_yearly_summed %>%
+          # setDT() %>%
+          .[, .(Year = year, Rate = round(rate, 1))] %>%
           ggplot() +
           geom_line(aes(x = Year,
                         y = Rate),
