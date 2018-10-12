@@ -110,7 +110,7 @@ function(input, output, session) {
           filter(Beat == input$map_shape_click$id) %>%
           as.data.frame() %>%
           select(-geometry) %>%
-          dplyr::union(select(as.data.frame(hpb_yearly_summed), -geometry)) %>%
+          dplyr::union(hpb_yearly_summed) %>%
           as_tibble() %>%
           rename(Year = year, Rate = rate) %>%
           mutate(Rate = round(Rate, 1)) %>%
