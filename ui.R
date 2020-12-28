@@ -10,15 +10,15 @@ header <- dashboardHeader(
 # SIDEBAR -----------------------------------------------------------------
 
 # Define 'Crime Category' inputs
-defaultCrimeType <- "Aggravated Assaults"
+defaultCrimeType <- "Aggravated Assault"
 crimeTypes <- c(
-  "Aggravated Assaults" = "Aggravated Assaults",
-  "Auto Thefts"         = "Auto Thefts",
-  "Burglaries"          = "Burglaries",
-  "Murders"             = "Murders",
-  "Other Thefts"        = "Other Thefts",
-  "Rapes"               = "Rapes",
-  "Robberies"           = "Robberies"
+  "Aggravated Assaults" = "Aggravated Assault",
+  "Auto Thefts"         = "Auto Theft",
+  "Burglaries"          = "Burglary",
+  "Murders"             = "Murder",
+  "Other Thefts"        = "Other Theft",
+  "Rapes"               = "Rape",
+  "Robberies"           = "Robbery"
 )
 
 # Define 'Year' inputs
