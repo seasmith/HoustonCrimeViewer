@@ -51,7 +51,7 @@ rm_beats <- function(threshold, measure = c("population", "density")) {
     
     filter(hou_pop,
            UN_2010_DS < !!enquo(threshold),
-           UN_2017_DS < !!enquo(threshold)) %>%
+           UN_2020_DS < !!enquo(threshold)) %>%
       pull(Beats) %>%
       as.character()
     
@@ -59,7 +59,7 @@ rm_beats <- function(threshold, measure = c("population", "density")) {
     
     filter(hou_pop,
            UN_2010_E < !!enquo(threshold),
-           UN_2017_E < !!enquo(threshold)) %>%
+           UN_2020_E < !!enquo(threshold)) %>%
       pull(Beats) %>%
       as.character()
     
