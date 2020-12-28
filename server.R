@@ -11,7 +11,7 @@ function(input, output, session) {
     
   leafData <- reactive({
     # No slider, for now
-    filter(hpb_yearly, `Offense Type` == input$offType &
+    filter(hpb_yearly, offense_type == input$offType &
              year == as.integer(input$years))
   })
   
@@ -36,8 +36,8 @@ function(input, output, session) {
     sprintf(paste0("Police Beat: %s<br/>Offense Rate: %s<br/>",
                    "Offense Total: %s<br/>Offense Percent: %s<br/>",
                    "Population Total: %s<br/>Population Density: %s / sq mi"),
-            leafData()$Beat, pretty(round(leafData()$rate, 0)),
-            pretty(leafData()$n_offenses),
+            leafData()$beat, pretty(round(leafData()$rate, 0)),
+            pretty(leafData()$offense_count),
             percent(leafData()$prop_off),
             pretty(round(leafData()$pop, 0)),
             pretty(round(leafData()$den, 0))) %>%
@@ -63,7 +63,7 @@ function(input, output, session) {
               lat = isolate(center())[2],
               zoom = isolate(zoom())) %>%
       clearShapes() %>%
-      addPolygons(layerId = ~Beat,
+      addPolygons(layerId = ~beat,
                   stroke = TRUE, weight = 1, color = "gray10",
                   fillOpacity = 0.5, fillColor = ~(colorPal())(rate),
                   highlightOptions = highlightOptions(
@@ -87,15 +87,15 @@ function(input, output, session) {
       ggplotly(
         hpb_yearly_summed %>%
           # setDT() %>%
-          .[, .(Year = year, Rate = round(rate, 1))] %>%
+          .[, .(Year = year, Rate = round(rate, 1), offense_type)] %>%
           ggplot() +
           geom_line(aes(x = Year,
                         y = Rate),
                     color = "gray50", size = 0.8) +
-          facet_wrap(~`Offense Type`, scales = "free_y") +
-          scale_x_continuous(NULL, expand = expand_scale(c(0.1, 0.1)), breaks = pretty_breaks(3)) +
-          scale_y_continuous(expand = expand_scale(c(0.1, 0.1)), breaks = pretty_breaks(3)) +
-          labs(title = paste0("2010-2017 Crime in Houston"),
+          facet_wrap(~offense_type, scales = "free_y") +
+          scale_x_continuous(NULL, expand = expansion(c(0.1, 0.1)), breaks = pretty_breaks(3)) +
+          scale_y_continuous(expand = expansion(c(0.1, 0.1)), breaks = pretty_breaks(3)) +
+          labs(title = paste0("2010-2020 Crime in Houston"),
                x = NULL,
                y = paste0("Crime Rate (Per 100,000)")) +
           theme_minimal(),
@@ -107,7 +107,7 @@ function(input, output, session) {
 
       ggplotly(
         hpb_yearly %>%
-          filter(Beat == input$map_shape_click$id) %>%
+          filter(beat == input$map_shape_click$id) %>%
           as.data.frame() %>%
           select(-geometry) %>%
           dplyr::union(hpb_yearly_summed) %>%
@@ -115,10 +115,10 @@ function(input, output, session) {
           rename(Year = year, Rate = rate) %>%
           mutate(Rate = round(Rate, 1)) %>%
           ggplot() +
-          geom_line(aes(x = Year, y = Rate, color = Beat), size = 0.8) +
-          scale_x_continuous(NULL, expand = expand_scale(c(0.1, 0.1)), breaks = pretty_breaks(3)) +
-          scale_y_continuous(expand = expand_scale(c(0.1, 0.1)), breaks = pretty_breaks(3)) +
-          facet_wrap(~`Offense Type`, scales = "free_y") +
+          geom_line(aes(x = Year, y = Rate, color = beat), size = 0.8) +
+          scale_x_continuous(NULL, expand = expansion(c(0.1, 0.1)), breaks = pretty_breaks(3)) +
+          scale_y_continuous(expand = expansion(c(0.1, 0.1)), breaks = pretty_breaks(3)) +
+          facet_wrap(~offense_type, scales = "free_y") +
           scale_color_manual(values = c("brown", "gray50")) +
           guides(color = guide_legend(title = "")) +
           labs(title = paste0("Crime in Houston 2010-2017"),
@@ -141,9 +141,9 @@ function(input, output, session) {
       mutate(Rate = round(Rate, 1)) %>%
       ggplot() +
       geom_histogram(aes(Rate), fill = "gray50") +
-      scale_x_continuous(expand = expand_scale(c(0.1, 0.1)), breaks = pretty_breaks(3)) +
-      scale_y_continuous(expand = expand_scale(c(0.1, 0.1)), breaks = pretty_breaks(2)) +
-      facet_wrap(~`Offense Type`, scales = "free") +
+      scale_x_continuous(expand = expansion(c(0.1, 0.1)), breaks = pretty_breaks(3)) +
+      scale_y_continuous(expand = expansion(c(0.1, 0.1)), breaks = pretty_breaks(2)) +
+      facet_wrap(~offense_type, scales = "free") +
       theme_minimal()
     
     if (is.null(data$clickedShape)) {
@@ -154,11 +154,11 @@ function(input, output, session) {
     } else {
       output_density <- output_density +
         geom_vline(aes(xintercept = Rate),
-                   data = filter(hpb_yearly, year == input$years, Beat == input$map_shape_click$id) %>%
+                   data = filter(hpb_yearly, year == input$years, beat == input$map_shape_click$id) %>%
                      rename(Rate = rate) %>%
                      mutate(Rate = round(Rate, 1)),
                    color = "brown", size = 0.6, alpha = 0.8) +
-        # labs(title = paste0(input$years, " Beat ", input$map_shape_click$id, " Crime Distribution"),
+        # labs(title = paste0(input$years, " beat ", input$map_shape_click$id, " Crime Distribution"),
         labs(title = paste0(input$years, " City of Houston Crime Distribution"),
              x = paste0("Crime Rate (Per 100,000)"),
              y = paste0("Number of Beats"))
@@ -175,11 +175,11 @@ function(input, output, session) {
       # ggplot2:
       ggplotly(
         hpb_hourly_summed %>%
-          filter(`Offense Type` == input$offType &
+          filter(offense_type == input$offType &
                    year == input$years) %>%
           group_by(hour, week_day) %>%
-          summarize(n_offenses_sum  = sum(n_offenses, na.rm = TRUE),
-                    n_offenses_mean = mean(n_offenses, na.rm = TRUE)) %>%
+          summarize(n_offenses_sum  = sum(offense_count, na.rm = TRUE),
+                    n_offenses_mean = mean(offense_count, na.rm = TRUE)) %>%
           ungroup() %>%
           ggplot(aes(hour, fct_rev(week_day), fill = n_offenses_sum,
                      text = paste0("Offenses: ", round(n_offenses_sum, 1), "\n",
@@ -187,9 +187,9 @@ function(input, output, session) {
                                    "Hour: ", x_labs[hour]))) +
           geom_tile() +
           scale_fill_viridis_c("Number of Offenses", option = "B") +
-          scale_x_continuous(NULL, expand = expand_scale(),
+          scale_x_continuous(NULL, expand = expansion(),
                              breaks = seq(0, 20, 5), labels = x_labs[seq(1, 21, 5)]) +
-          scale_y_discrete(NULL, expand = expand_scale()) +
+          scale_y_discrete(NULL, expand = expansion()) +
           labs(title = paste0(input$years, " Day-Time Distribution of ", input$offType, " in Houston"),
                x = NULL, y = NULL) +
           theme_minimal(),
@@ -199,12 +199,12 @@ function(input, output, session) {
       # ggplot2:
       ggplotly(
         hpb_hourly_summed %>%
-          filter(`Offense Type` == input$offType &
-                   Beat == input$map_shape_click$id &
+          filter(offense_type == input$offType &
+                   beat == input$map_shape_click$id &
                    year == input$years) %>%
           group_by(hour, week_day) %>%
-          summarize(n_offenses_sum  = sum(n_offenses, na.rm = TRUE),
-                    n_offenses_mean = mean(n_offenses, na.rm = TRUE)) %>%
+          summarize(n_offenses_sum  = sum(offense_count, na.rm = TRUE),
+                    n_offenses_mean = mean(offense_count, na.rm = TRUE)) %>%
           ungroup() %>%
           ggplot(aes(hour, fct_rev(week_day), fill = n_offenses_sum,
                      text = paste0("Offenses: ", round(n_offenses_sum, 1), "\n",
