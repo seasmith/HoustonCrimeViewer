@@ -74,3 +74,4 @@ rm_int <- "21I50"
 hpb_yearly <- hpb_yearly  %>%
   mutate(rate = if_else(beat %in% c(rm_beats(100), rm_hobby), NA_real_, rate)) %>%
   mutate(rate = if_else(beat %in% c(rm_beats(100), rm_int), NA_real_, rate)) %>%
+  mutate(den = as.double(den)) # originally a "units" class (1/mi^2)
