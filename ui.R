@@ -22,8 +22,8 @@ crimeTypes <- c(
 )
 
 # Define 'Year' inputs
-defaultYearValue <- 2017
-yearValue <- as.character(2010:2017) %>% setNames(nm = .)
+defaultYearValue <- 2019
+yearValue <- as.character(2010:2020) %>% setNames(nm = .)
 
 # Set variables for use through out the ui
 mapText <- "Crime Map"
