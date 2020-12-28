@@ -69,6 +69,8 @@ rm_beats <- function(threshold, measure = c("population", "density")) {
 # This beat is next to Hobby and skews the 'Auto Thefts': 13D30
 
 rm_hobby <- "13D30"
+rm_int <- "21I50"
 
 hpb_yearly <- hpb_yearly  %>%
-  mutate(rate = if_else(Beat %in% c(rm_beats(100), rm_hobby), NA_real_, rate))
+  mutate(rate = if_else(beat %in% c(rm_beats(100), rm_hobby), NA_real_, rate)) %>%
+  mutate(rate = if_else(beat %in% c(rm_beats(100), rm_int), NA_real_, rate)) %>%
