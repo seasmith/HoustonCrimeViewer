@@ -87,10 +87,10 @@ function(input, output, session) {
       ggplotly(
         hpb_yearly_summed %>%
           # setDT() %>%
-          .[, .(Year = year, Rate = round(rate, 1), offense_type)] %>%
+          .[, .(year = year, rate = round(rate, 1), offense_type)] %>%
           ggplot() +
-          geom_line(aes(x = Year,
-                        y = Rate),
+          geom_line(aes(x = year,
+                        y = rate),
                     color = "gray50", size = 0.8) +
           facet_wrap(~offense_type, scales = "free_y") +
           scale_x_continuous(NULL, expand = expansion(c(0.1, 0.1)), breaks = pretty_breaks(3)) +
@@ -112,10 +112,9 @@ function(input, output, session) {
           select(-geometry) %>%
           dplyr::union(hpb_yearly_summed) %>%
           as_tibble() %>%
-          rename(Year = year, Rate = rate) %>%
-          mutate(Rate = round(Rate, 1)) %>%
+          mutate(rate = round(rate, 1)) %>%
           ggplot() +
-          geom_line(aes(x = Year, y = Rate, color = beat), size = 0.8) +
+          geom_line(aes(x = year, y = rate, color = beat), size = 0.8) +
           scale_x_continuous(NULL, expand = expansion(c(0.1, 0.1)), breaks = pretty_breaks(3)) +
           scale_y_continuous(expand = expansion(c(0.1, 0.1)), breaks = pretty_breaks(3)) +
           facet_wrap(~offense_type, scales = "free_y") +
