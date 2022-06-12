@@ -86,8 +86,9 @@ function(input, output, session) {
       
       ggplotly(
         hpb_yearly_summed %>%
-          # setDT() %>%
-          .[, .(year = year, rate = round(rate, 1), offense_type)] %>%
+          transmute(year,
+                    rate = round(rate, 1),
+                    offense_type) %>%
           ggplot() +
           geom_line(aes(x = year,
                         y = rate),
@@ -95,7 +96,7 @@ function(input, output, session) {
           facet_wrap(~offense_type, scales = "free_y") +
           scale_x_continuous(NULL, expand = expansion(c(0.1, 0.1)), breaks = pretty_breaks(3)) +
           scale_y_continuous(expand = expansion(c(0.1, 0.1)), breaks = pretty_breaks(3)) +
-          labs(title = paste0("2010-2020 Crime in Houston"),
+          labs(title = sprintf("2010-%d Crime in Houston", CURRENT_YEAR),
                x = NULL,
                y = paste0("Crime Rate (Per 100,000)")) +
           theme_minimal(),
