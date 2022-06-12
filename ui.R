@@ -13,16 +13,16 @@ header <- dashboardHeader(
 defaultCrimeType <- "Assault (Aggravated)"
 crimeTypes <- c(
   "Assault (Aggravated)" = "Assault (Aggravated)",
-  "Theft (Auto)"         = "Theft (Auto)",
   "Burglary"             = "Burglary",
   "Homicide (Murder)"    = "Homicide (Murder)",
-  "Theft (Other)"        = "Theft (Other)",
+  "Robbery"              = "Robbery",
   "Sex Offense (Rape)"   = "Sex Offense (Rape)",
-  "Robbery"              = "Robbery"
+  "Theft (Auto)"         = "Theft (Auto)",
+  "Theft (Other)"        = "Theft (Other)"
 )
 
 # Define 'Year' inputs
-defaultYearValue <- 2022
+defaultYearValue <- 2021
 yearValue <- as.character(2010:2022) %>% setNames(nm = .)
 
 # Set variables for use through out the ui
