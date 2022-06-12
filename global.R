@@ -77,3 +77,5 @@ hpb_yearly <- hpb_yearly  %>%
 
 hpb_yearly_summed <- hpb_yearly_summed %>%
   mutate(den = as.double(den)) # originally a "units" class (1/mi^2)
+
+CURRENT_YEAR <- max(hpb_yearly$year)

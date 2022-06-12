@@ -121,7 +121,7 @@ function(input, output, session) {
           facet_wrap(~offense_type, scales = "free_y") +
           scale_color_manual(values = c("brown", "gray50")) +
           guides(color = guide_legend(title = "")) +
-          labs(title = paste0("Crime in Houston 2010-2017"),
+          labs(title = sprintf("Crime in Houston 2010-%d", CURRENT_YEAR),
                x = NULL,
                y = paste0("Crime Rate (Per 100,000)")) +
           theme_minimal(),
