@@ -5,9 +5,9 @@ function(input, output, session) {
   
   ## Interactive Map ###########################################
   
-  data <- reactiveValues(clickedShape = NULL)
+  data <- reactiveValues(clickedShape = NULL) # start w/ NULL police beat clicked
   observeEvent(input$map_shape_click, {data$clickedShape <- input$map_shape_click})
-  observeEvent(input$resetBeatSelection, {data$clickedShape <- NULL})
+  observeEvent(input$resetBeatSelection, {data$clickedShape <- NULL}) # ui action button
     
   leafData <- reactive({
     # No slider, for now
